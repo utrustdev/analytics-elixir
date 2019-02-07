@@ -5,7 +5,7 @@ defmodule SegmentTest do
 
   test "track debugging" do
     Segment.start_link(@segment_test_key)
-    t = Segment.Analytics.track("343434", "track debugging #{elem(:os.timestamp,2)}")
+    t = Segment.Analytics.track("343434", "track debugging #{elem(:os.timestamp(), 2)}")
     Task.await(t)
   end
 end

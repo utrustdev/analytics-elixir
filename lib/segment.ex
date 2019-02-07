@@ -1,14 +1,13 @@
 defmodule Segment do
+  use Supervisor
 
-  @type status :: :ok | :error
-
-  @spec start_link(binary) :: { Segment.status, pid }
   def start_link(write_key) do
-    Agent.start_link(fn -> write_key end, name: __MODULE__)
-  end
+    children = [
+      worker(Segment.Keychain, [write_key]),
+      Segment.Analytics.Server
+    ]
 
-  def write_key() do
-    Agent.get(__MODULE__, fn(state) -> state end)
+    opts = [strategy: :one_for_one, name: __MODULE__]
+    Supervisor.start_link(children, opts)
   end
-
 end
