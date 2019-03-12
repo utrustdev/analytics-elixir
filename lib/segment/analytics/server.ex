@@ -5,6 +5,10 @@ defmodule Segment.Analytics.Server do
 
   alias Segment.Analytics.Http
 
+  def init(_) do
+    {:ok, %{}}
+  end
+
   def start_link(args) do
     GenServer.start_link(__MODULE__, args, name: __MODULE__)
   end
